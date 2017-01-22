@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  coord: MyString
+  description: MyText
+  get_there: MyText
+  parent_id: 1
+
+two:
+  name: MyString
+  coord: MyString
+  description: MyText
+  get_there: MyText
+  parent_id: 1
