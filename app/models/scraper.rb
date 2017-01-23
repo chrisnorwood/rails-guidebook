@@ -52,43 +52,33 @@ class Scraper < ApplicationRecord
     def scrape_climb(mp_climb_url, agent=Mechanize.new, area_id=1)
       page = agent.get(mp_climb_url)
 
-      climb_name      = page.search('.rspCol h1.dkorange em span[itemprop=itemreviewed]').children.first.content
+      climb_name = page.search('.rspCol h1.dkorange em span[itemprop=itemreviewed]').children.first.content
 
-      if page.search('.rateYDS').children[2]
-        climb_grade     = page.search('.rateYDS').children[2].content.gsub(/\A[[:space:]]+|[[:space:]]+\z/, '')
-      elsif page.search('.rateHueco').children[2]
-        climb_grade     = page.search('.rateHueco').children[2].content.gsub(/\A[[:space:]]+|[[:space:]]+\z/, '')
-      end
-      
-      if page.search('.rspCol span table tr:first-child td:nth-child(2)').children.first
-        climb_type       = page.search('.rspCol span table tr:first-child td:nth-child(2)').children.first.content
-      else
-        climb_type = nil
-      end
+      climb_grade = if res = page.search('.rateYDS').children[2]
+                      res.content.gsub(/\A[[:space:]]+|[[:space:]]+\z/, '')
+                    elsif res = page.search('.rateHueco').children[2]
+                      res.content.gsub(/\A[[:space:]]+|[[:space:]]+\z/, '')
+                    end
 
-      if page.search('.rspCol span table tr:nth-child(3) td:nth-child(2)').children[1]
-        climb_fa         = page.search('.rspCol span table tr:nth-child(3) td:nth-child(2)').children[1].content
-      else
-        climb_fa = nil
-      end
+      climb_type = if res = page.search('.rspCol span table tr:first-child td:nth-child(2)').children.first
+                     page.search('.rspCol span table tr:first-child td:nth-child(2)').children.first.content
+                   end
 
-      if page.search('h3.dkorange + div').children[1]
-        climb_desc       = page.search('h3.dkorange + div').children[1].content
-      else
-        climb_desc = nil
-      end
+      climb_fa = if res = page.search('.rspCol span table tr:nth-child(3) td:nth-child(2)').children[1]
+                   res.content
+                 end
 
-      if page.search('h3.dkorange + div').children[4]
-        climb_location   = page.search('h3.dkorange + div').children[4].content
-      else
-        climb_location = nil
-      end
+      climb_desc = if res = page.search('h3.dkorange + div').children[1]
+                     res.content
+                   end
 
-      if page.search('h3.dkorange + div').children[7]
-        climb_protection = page.search('h3.dkorange + div').children[7].content.gsub(/\A[[:space:]]+|[[:space:]]+\z/, '')
-      else
-        climb_protection = nil
-      end
+      climb_location = if res = page.search('h3.dkorange + div').children[4]
+                         res.content
+                       end
+
+      climb_protection = if res = page.search('h3.dkorange + div').children[7]
+                           res.content.gsub(/\A[[:space:]]+|[[:space:]]+\z/, '')
+                         end
 
       climb_info = {
         name:        climb_name,
