@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170122225510) do
+ActiveRecord::Schema.define(version: 20170123001149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20170122225510) do
   create_table "climbs", force: :cascade do |t|
     t.string   "name"
     t.string   "grade"
-    t.string   "type"
+    t.string   "style"
     t.string   "fa"
     t.text     "description"
     t.text     "location"
